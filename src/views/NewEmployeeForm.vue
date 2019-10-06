@@ -3,15 +3,15 @@
     <span class="title">Formularz dodawania nowego pracownika</span>
     <form @submit.prevent="checkForm">
       <label for="name">Imię</label>
-      <input
+      <my-input
         id="name"
         v-model.trim="newEmployee.name"
-      >
+      ></my-input>
       <label for="lastname">Nazwisko</label>
-      <input
+      <my-input
         id="lastname"
         v-model.trim="newEmployee.lastname"
-      >
+      ></my-input>
       <label for="position">Stanowisko</label>
       <select
         id="position"
@@ -23,11 +23,21 @@
           :key="option"
         >{{option}}</option>
       </select>
+      <label for="technologies">Technologie</label>
+      <multiselect
+        v-model="newEmployee.technologies"
+        v-bind:options="technologies"
+        v-bind:multiple="true"
+        placeholder="wybierz opcje"
+        select-label="naciśnij enter aby wybrać"
+        selected-label="wybrano"
+        deselect-label="naciśnij enter aby usunąć"
+      ></multiselect>
       <label for="phoneNumber">Numer Telefonu</label>
-      <input
+      <my-input
         id="phoneNumber"
         v-model.trim.number="newEmployee.phoneNumber"
-      >
+      ></my-input>
       <label for="contractType">Forma zatrudnienia</label>
       <select
         id="contractType"
@@ -40,64 +50,96 @@
         >{{option}}</option>
       </select>
       <div class="flex-container">
-        <button
-          class="btn"
-          v-on:click.prevent="clearForm"
-        >Wyczyść</button>
-        <button
-          class="btn btn-action"
+        <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
+        <my-button
+          :disabled="!formIsValid"
+          :class="{disabled: !formIsValid}"
+          class="btn-action"
           type="submit"
-        >Zapisz</button>
+        >Zapisz</my-button>
       </div>
     </form>
   </div>
 </template>
 <script>
+import Multiselect from 'vue-multiselect';
+import MyButton from '@/components/MyButton.vue';
+import MyInput from '@/components/MyInput.vue';
+
 export default {
+  components: {
+    MyButton,
+    MyInput,
+    Multiselect,
+  },
   data() {
     return {
       newEmployee: {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: ""
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       },
-      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
+      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
       positionOptions: [
-        "Frontend developer",
-        "Backend developer",
-        "DevOps",
-        "Solution architect",
-        "QA engineer",
-        "Business analytics",
-        "UX designer",
-        "Project manager"
-      ]
+        'Frontend developer',
+        'Backend developer',
+        'DevOps',
+        'Solution architect',
+        'QA engineer',
+        'Business analytics',
+        'UX designer',
+        'Project manager',
+      ],
+      technologies: [
+        'Javascript',
+        'Java',
+        '.NET',
+        'Docker',
+        'AWS',
+        'Azure',
+        'MySQL',
+        'MongoDB',
+        'Node.js',
+        'GraphQL',
+        'Jenkins',
+        'HTML 5',
+        'CSS 3',
+      ],
     };
   },
   created() {
-    this.newEmployee.position = "Frontend developer";
+    this.newEmployee.technologies.push('Javascript');
+    this.newEmployee.position = 'Frontend developer';
   },
   computed: {
     formIsValid() {
-      return Object.keys(this.newEmployee).every(key => this.newEmployee[key]);
-    }
+      return (
+        Object.keys(this.newEmployee).every(key => this.newEmployee[key])
+        && this.newEmployee.technologies.length
+      );
+    },
   },
   methods: {
     checkForm() {
-      console.log("Działa");
+      if (this.formIsValid) {
+        // TODO
+        console.log(this.newEmployee);
+      }
     },
     clearForm() {
       this.newEmployee = {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: ""
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -124,24 +166,14 @@ label {
   justify-content: flex-end;
 }
 
-.btn {
-  background-color: #f5f5f5;
-  text-transform: uppercase;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.1rem;
-}
-
-.btn:hover {
-  background-color: #e0e0e0;
-}
-
-.btn-action {
-  color: #fff;
-  background-color: #4caf50;
-}
-
-.btn-action:hover {
-  background-color: #66bb6a;
+.multiselect {
+  margin: 2px 10px 15px;
+  width: auto;
 }
 </style>
+<style>
+.multiselect .multiselect__tags {
+  border-color: #ccc;
+}
+</style>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

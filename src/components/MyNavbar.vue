@@ -8,6 +8,10 @@
         tag="li"
         :exact="true"
       >
+        <img
+          v-if="item.icon"
+          :src="resolveImgSrc(item.icon)"
+        >
         <span>{{item.label}}</span>
       </router-link>
     </ul>
@@ -19,16 +23,23 @@ export default {
     return {
       menu: [
         {
-          link: "/",
-          label: "Strona główna"
+          link: '/',
+          label: 'Strona główna',
+          icon: 'home-24px',
         },
         {
-          link: "/new-employee",
-          label: "Dodaj pracownika"
-        }
-      ]
+          link: '/new-employee',
+          label: 'Dodaj pracownika',
+          icon: 'person_add-24px',
+        },
+      ],
     };
-  }
+  },
+  methods: {
+    resolveImgSrc(img) {
+      return require(`@/assets/${img}.svg`);
+    },
+  },
 };
 </script>
 <style scoped>
