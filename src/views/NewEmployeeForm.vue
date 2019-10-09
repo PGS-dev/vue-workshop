@@ -19,14 +19,14 @@
       >
         <option value="">wybierz opcje</option>
         <option
-          v-for="option in positionOptions"
+          v-for="option in getPositions"
           :key="option"
         >{{option}}</option>
       </select>
       <label for="technologies">Technologie</label>
       <multiselect
         v-model="newEmployee.technologies"
-        v-bind:options="technologies"
+        v-bind:options="getTechnologies"
         v-bind:multiple="true"
         placeholder="wybierz opcje"
         select-label="naciśnij enter aby wybrać"
@@ -57,12 +57,12 @@
           class="btn-action"
           type="submit"
         >Zapisz</my-button>
-        <my-button-test
+        <!-- <my-button-test
           :disabled="!formIsValid"
           :class="{disabled: !formIsValid}"
           class="btn btn-action"
           @click="test"
-        >Test Button</my-button-test>
+        >Test Button</my-button-test> -->
       </div>
     </form>
   </div>
@@ -71,14 +71,14 @@
 import Multiselect from 'vue-multiselect';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/MyInput.vue';
-import MyButtonTest from '@/components/MyButtonTest';
+// import MyButtonTest from '@/components/MyButtonTest';
 
 export default {
   components: {
     MyButton,
     MyInput,
     Multiselect,
-    MyButtonTest,
+    // MyButtonTest,
   },
   data() {
     return {
@@ -91,31 +91,6 @@ export default {
         technologies: [],
       },
       contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
-      positionOptions: [
-        'Frontend developer',
-        'Backend developer',
-        'DevOps',
-        'Solution architect',
-        'QA engineer',
-        'Business analytics',
-        'UX designer',
-        'Project manager',
-      ],
-      technologies: [
-        'Javascript',
-        'Java',
-        '.NET',
-        'Docker',
-        'AWS',
-        'Azure',
-        'MySQL',
-        'MongoDB',
-        'Node.js',
-        'GraphQL',
-        'Jenkins',
-        'HTML 5',
-        'CSS 3',
-      ],
     };
   },
   created() {
@@ -129,15 +104,18 @@ export default {
         && this.newEmployee.technologies.length
       );
     },
+    getTechnologies() {
+      return this.$store.getters.getTechnologies;
+    },
+    getPositions() {
+      return this.$store.getters.getPositions;
+    },
   },
   methods: {
-    test() {
-      console.log('test');
-    },
-    checkForm() {
+    async checkForm() {
       if (this.formIsValid) {
-        // TODO
-        console.log(this.newEmployee);
+        await this.$store.dispatch('addNewEmployee', this.newEmployee);
+        this.$router.push({ name: 'home' });
       }
     },
     clearForm() {

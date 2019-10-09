@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <my-navbar></my-navbar>
-    <main id="main">
+    <main id="main" :class="{loading: getLoader}">
+      <my-loader v-if="getLoader"></my-loader>
       <router-view></router-view>
     </main>
   </div>
@@ -9,10 +10,16 @@
 
 <script>
 import MyNavbar from '@/components/MyNavbar.vue';
+import MyLoader from '@/components/MyLoader.vue';
 
 export default {
   name: 'app',
-  components: { MyNavbar },
+  components: { MyNavbar, MyLoader },
+  computed: {
+    getLoader() {
+      return this.$store.getters.getLoader;
+    },
+  },
 };
 </script>
 
@@ -29,6 +36,10 @@ body {
   height: auto;
   display: flex;
   justify-content: center;
+}
+
+.loading {
+  opacity: 0.5;
 }
 
 #app {
