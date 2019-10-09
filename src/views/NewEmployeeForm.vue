@@ -57,6 +57,12 @@
           class="btn-action"
           type="submit"
         >Zapisz</my-button>
+        <my-button-test
+          :disabled="!formIsValid"
+          :class="{disabled: !formIsValid}"
+          class="btn btn-action"
+          @click="test"
+        >Test Button</my-button-test>
       </div>
     </form>
   </div>
@@ -65,12 +71,14 @@
 import Multiselect from 'vue-multiselect';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/MyInput.vue';
+import MyButtonTest from '@/components/MyButtonTest';
 
 export default {
   components: {
     MyButton,
     MyInput,
     Multiselect,
+    MyButtonTest,
   },
   data() {
     return {
@@ -123,6 +131,9 @@ export default {
     },
   },
   methods: {
+    test() {
+      console.log('test');
+    },
     checkForm() {
       if (this.formIsValid) {
         // TODO
@@ -155,10 +166,6 @@ export default {
   flex-direction: column;
 }
 
-label {
-  margin-left: 10px;
-}
-
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -167,7 +174,7 @@ label {
 }
 
 .multiselect {
-  margin: 2px 10px 15px;
+  margin: 2px 10px 15px 0;
   width: auto;
 }
 </style>

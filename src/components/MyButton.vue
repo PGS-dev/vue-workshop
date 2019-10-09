@@ -1,15 +1,15 @@
-<template>
+<template functional>
   <button
-    class="btn"
-    v-on="$listeners"
-    v-bind="$attrs"
+    :class="['btn', data.staticClass, data.class]"
+    v-on="listeners"
+    v-bind="data.attrs"
   >
     <slot /></button>
 </template>
 <script>
 export default {};
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .btn {
   background-color: #f5f5f5;
   text-transform: uppercase;
