@@ -1,27 +1,15 @@
 <template>
-  <div class="card">
+  <div class="container card">
     <span class="title">Formularz dodawania nowego pracownika</span>
     <form @submit.prevent="checkForm">
       <label for="name">Imię</label>
-      <my-input
-        id="name"
-        v-model.trim="newEmployee.name"
-      ></my-input>
+      <my-input id="name" v-model.trim="newEmployee.name"></my-input>
       <label for="lastname">Nazwisko</label>
-      <my-input
-        id="lastname"
-        v-model.trim="newEmployee.lastname"
-      ></my-input>
+      <my-input id="lastname" v-model.trim="newEmployee.lastname"></my-input>
       <label for="position">Stanowisko</label>
-      <select
-        id="position"
-        v-model="newEmployee.position"
-      >
-        <option value="">wybierz opcje</option>
-        <option
-          v-for="option in getPositions"
-          :key="option"
-        >{{option}}</option>
+      <select id="position" v-model="newEmployee.position">
+        <option value>wybierz opcje</option>
+        <option v-for="option in getPositions" :key="option">{{option}}</option>
       </select>
       <label for="technologies">Technologie</label>
       <multiselect
@@ -34,20 +22,11 @@
         deselect-label="naciśnij enter aby usunąć"
       ></multiselect>
       <label for="phoneNumber">Numer Telefonu</label>
-      <my-input
-        id="phoneNumber"
-        v-model.trim.number="newEmployee.phoneNumber"
-      ></my-input>
+      <my-input id="phoneNumber" v-model.trim.number="newEmployee.phoneNumber"></my-input>
       <label for="contractType">Forma zatrudnienia</label>
-      <select
-        id="contractType"
-        v-model="newEmployee.contractType"
-      >
-        <option value="">wybierz opcje</option>
-        <option
-          v-for="option in contractTypeOptions"
-          :key="option"
-        >{{option}}</option>
+      <select id="contractType" v-model="newEmployee.contractType">
+        <option value>wybierz opcje</option>
+        <option v-for="option in contractTypeOptions" :key="option">{{option}}</option>
       </select>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
@@ -62,7 +41,7 @@
           :class="{disabled: !formIsValid}"
           class="btn btn-action"
           @click="test"
-        >Test Button</my-button-test> -->
+        >Test Button</my-button-test>-->
       </div>
     </form>
   </div>
@@ -132,16 +111,8 @@ export default {
 };
 </script>
 <style scoped>
-.card {
+.container {
   width: 600px;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  height: auto;
-  padding: 20px;
-  background-color: #fff;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
 }
 
 .flex-container {

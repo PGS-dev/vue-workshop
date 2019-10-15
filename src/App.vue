@@ -3,7 +3,9 @@
     <my-navbar></my-navbar>
     <main id="main" :class="{loading: getLoader}">
       <my-loader v-if="getLoader"></my-loader>
-      <router-view></router-view>
+      <transition name="slide-fade">
+        <router-view></router-view>
+      </transition>
     </main>
   </div>
 </template>
@@ -47,6 +49,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.5s ease;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(25%);
+  opacity: 0;
+}
+
+.slide-fade-leave-active {
+  opacity: 0;
 }
 </style>
