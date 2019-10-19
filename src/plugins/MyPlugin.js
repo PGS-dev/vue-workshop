@@ -4,9 +4,7 @@ export default {
 
     // global method and property
     Vue.myGlobalProperty = 'Hello from global property';
-    Vue.myGlobalMethod = () => {
-      return Vue.myGlobalProperty;
-    }
+    Vue.myGlobalMethod = () => Vue.myGlobalProperty;
 
     // instance methods
 

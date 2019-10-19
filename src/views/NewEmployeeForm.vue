@@ -47,37 +47,37 @@
   </div>
 </template>
 <script>
-import Multiselect from "vue-multiselect";
-import MyButton from "@/components/MyButton.vue";
-import MyInput from "@/components/MyInput.vue";
+import Multiselect from 'vue-multiselect';
+import MyButton from '@/components/MyButton.vue';
+import MyInput from '@/components/MyInput.vue';
 // import MyButtonTest from '@/components/MyButtonTest';
-import MyMixin from "@/mixins/MyMixin";
+import MyMixin from '@/mixins/MyMixin';
 
 export default {
   mixins: [MyMixin],
   components: {
     MyButton,
     MyInput,
-    Multiselect
+    Multiselect,
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       },
-      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
-      isValid: false
+      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
+      isValid: false,
     };
   },
   created() {
-    this.newEmployee.technologies.push("Javascript");
-    this.newEmployee.position = "Frontend developer";
+    this.newEmployee.technologies.push('Javascript');
+    this.newEmployee.position = 'Frontend developer';
   },
   mounted() {
     console.log('Mounted hook from component: ', this.mixinProperty);
@@ -89,8 +89,8 @@ export default {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   computed: {
     // formIsValid() {
@@ -103,21 +103,21 @@ export default {
   methods: {
     async checkForm() {
       if (this.formIsValid) {
-        await this.$store.dispatch("addNewEmployee", this.newEmployee);
-        this.$router.push({ name: "home" });
+        await this.$store.dispatch('addNewEmployee', this.newEmployee);
+        this.$router.push({ name: 'home' });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

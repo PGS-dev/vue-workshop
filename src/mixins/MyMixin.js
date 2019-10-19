@@ -1,18 +1,18 @@
 export default {
-    data() {
-        return {
-            mixinProperty: 'Mixin property',
-        }
+  data() {
+    return {
+      mixinProperty: 'Mixin property',
+    };
+  },
+  mounted() {
+    console.log('Mounted hook from mixin');
+  },
+  computed: {
+    getTechnologies() {
+      return this.$store.getters.getTechnologies;
     },
-    mounted() {
-        console.log('Mounted hook from mixin');
+    getPositions() {
+      return this.$store.getters.getPositions;
     },
-    computed: {
-        getTechnologies() {
-            return this.$store.getters.getTechnologies;
-          },
-          getPositions() {
-            return this.$store.getters.getPositions;
-          },
-    }
+  },
 };
