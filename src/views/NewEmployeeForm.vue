@@ -31,8 +31,8 @@
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
         <my-button
-          :disabled="!formIsValid"
-          :class="{disabled: !formIsValid}"
+          :disabled="!isValid"
+          :class="{disabled: !isValid}"
           class="btn-action"
           type="submit"
         >Zapisz</my-button>
@@ -47,67 +47,77 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect';
-import MyButton from '@/components/MyButton.vue';
-import MyInput from '@/components/MyInput.vue';
+import Multiselect from "vue-multiselect";
+import MyButton from "@/components/MyButton.vue";
+import MyInput from "@/components/MyInput.vue";
 // import MyButtonTest from '@/components/MyButtonTest';
+import MyMixin from "@/mixins/MyMixin";
 
 export default {
+  mixins: [MyMixin],
   components: {
     MyButton,
     MyInput,
-    Multiselect,
+    Multiselect
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       },
-      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
+      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
+      isValid: false
     };
   },
   created() {
-    this.newEmployee.technologies.push('Javascript');
-    this.newEmployee.position = 'Frontend developer';
+    this.newEmployee.technologies.push("Javascript");
+    this.newEmployee.position = "Frontend developer";
+  },
+  mounted() {
+    console.log('Mounted hook from component: ', this.mixinProperty);
+  },
+  watch: {
+    newEmployee: {
+      handler(newVal, oldVal) {
+        if (newVal.technologies.length) {
+          this.isValid = Object.keys(newVal).every(key => newVal[key]);
+        }
+      },
+      deep: true
+    }
   },
   computed: {
-    formIsValid() {
-      return (
-        Object.keys(this.newEmployee).every(key => this.newEmployee[key])
-        && this.newEmployee.technologies.length
-      );
-    },
-    getTechnologies() {
-      return this.$store.getters.getTechnologies;
-    },
-    getPositions() {
-      return this.$store.getters.getPositions;
-    },
+    // formIsValid() {
+    //   return (
+    //     Object.keys(this.newEmployee).every(key => this.newEmployee[key]) &&
+    //     this.newEmployee.technologies.length
+    //   );
+    // },
   },
   methods: {
     async checkForm() {
       if (this.formIsValid) {
-        await this.$store.dispatch('addNewEmployee', this.newEmployee);
-        this.$router.push({ name: 'home' });
+        await this.$store.dispatch("addNewEmployee", this.newEmployee);
+        this.$router.push({ name: "home" });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

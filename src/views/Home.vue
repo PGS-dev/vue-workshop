@@ -1,9 +1,15 @@
 <template>
-  <div class="container card">
+  <div class="container card" v-color-swatch="'#CFD8DC'">
     <div class="container__filters">
-      <my-input v-model="searchValue" placeholder="wyszukaj"></my-input>
+      <my-input v-focus v-model="searchValue" placeholder="wyszukaj"></my-input>
       <my-select v-model="selectedTechnology" :options="getTechnologies"></my-select>
       <my-select v-model="selectedPosition" :options="getPositions"></my-select>
+      <my-button
+        v-if="filtersApplied"
+        class="btn-danger"
+        v-test
+        @click="clearFilters"
+      >Wyczyść filtry</my-button>
     </div>
     <div class="container__table">
       <table>
@@ -11,43 +17,56 @@
           <th v-for="head in tableHead" :key="head">{{head}}</th>
         </tr>
         <tr
-          v-for="(employee, index) in filterEmployeesBySearchValue"
+          v-for="(employee, index) in filterEmployeesByPosition"
           :key="employee.name + employee.lastname + index"
         >
-          <td v-for="(val, index) in employee" :key="'uniqueKey-' + val + index">{{val}}</td>
+          <td
+            v-for="(val, index) in employee"
+            :key="'uniqueKey-' + val + index"
+          >{{val | formatArray | formatNumber}}</td>
         </tr>
       </table>
     </div>
   </div>
 </template>
 <script>
-import MyInput from '@/components/MyInput';
-import MySelect from '@/components/MySelect';
+import MyInput from "@/components/MyInput";
+import MySelect from "@/components/MySelect";
+import MyButton from "@/components/MyButton.vue";
+import MyMixin from "@/mixins/MyMixin";
 
 export default {
-  components: { MyInput, MySelect },
+  mixins: [MyMixin],
+  components: { MyInput, MySelect, MyButton },
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus();
+      }
+    }
+  },
+  filters: {
+    formatArray(value) {
+      if (Array.isArray(value)) return value.join(", ");
+      return value;
+    }
+  },
   data() {
     return {
-      searchValue: '',
+      searchValue: "",
       selectedTechnology: null,
       selectedPosition: null,
       tableHead: [
-        'Name',
-        'Lastname',
-        'Position',
-        'Contract Type',
-        'Phone number',
-        'Technologies',
-      ],
+        "Name",
+        "Lastname",
+        "Position",
+        "Contract Type",
+        "Phone number",
+        "Technologies"
+      ]
     };
   },
   computed: {
-    getTechnologies() {
-      return this.$store.getters.getTechnologies;
-    },
-    getPositions() {
-      return this.$store.getters.getPositions;
-    },
     getEmployees() {
       return this.$store.getters.getEmployees;
     },
@@ -55,15 +74,44 @@ export default {
       return this.searchValue.toLowerCase();
     },
     filterEmployeesBySearchValue() {
-      return this.getEmployees.filter((employee) => {
+      return this.getEmployees.filter(employee => {
         const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
         return values.includes(this.searchValueToLowerCase);
       });
     },
+    filterEmployeesByTechnology() {
+      return this.selectedTechnology
+        ? this.filterEmployeesBySearchValue.filter(employee =>
+            employee.technologies.includes(this.selectedTechnology)
+          )
+        : this.filterEmployeesBySearchValue;
+    },
+    filterEmployeesByPosition() {
+      return this.selectedPosition
+        ? this.filterEmployeesByTechnology.filter(employee =>
+            employee.position.includes(this.selectedPosition)
+          )
+        : this.filterEmployeesByTechnology;
+    },
+    filtersApplied() {
+      return (
+        this.searchValue || this.selectedTechnology || this.selectedPosition
+      );
+    }
   },
   async created() {
-    await this.$store.dispatch('fetchEmployeesList');
+    await this.$store.dispatch("fetchEmployeesList");
   },
+  mounted() {
+    console.log('Mounted hook from component:', this.mixinProperty);
+  },
+  methods: {
+    clearFilters() {
+      this.searchValue = "";
+      this.selectedTechnology = null;
+      this.selectedPosition = null;
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>
