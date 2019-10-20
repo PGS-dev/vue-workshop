@@ -1,7 +1,7 @@
 <template>
   <div class="container card">
     <span class="title">Formularz dodawania nowego pracownika</span>
-    <form @submit.prevent="checkForm">
+    <form @submit.prevent="checkForm" @keydown.enter.prevent="checkForm">
       <template v-for="field in fields">
         <label :key="'label' + field.id" :for="field.id">{{field.label}}</label>
         <form-field
@@ -41,79 +41,46 @@
   </div>
 </template>
 <script>
-import Multiselect from "vue-multiselect";
-import MyButton from "@/components/MyButton.vue";
+import Multiselect from 'vue-multiselect';
+import MyButton from '@/components/MyButton.vue';
 // import MyInput from '@/components/MyInput.vue';
 // import MyButtonTest from '@/components/MyButtonTest';
-import MyMixin from "@/mixins/MyMixin";
-import FormField from "@/components/FormField";
+import MyMixin from '@/mixins/MyMixin';
+import FormField from '@/components/FormField';
+import { FIELDS } from '@/constants';
 
-const FIELDS = [
-  {
-    label: "Imię",
-    type: "input",
-    model: "name",
-    id: "name"
-  },
-  {
-    label: "Nazwisko",
-    type: "input",
-    model: "lastname",
-    id: "lastname"
-  },
-  {
-    label: "Stanowisko",
-    type: "select",
-    model: "position",
-    id: "position",
-    options: []
-  },
-  {
-    label: "Numer Telefonu",
-    type: "input",
-    model: "phoneNumber",
-    id: "phoneNumber"
-  },
-  {
-    label: "Forma zatrudnienia",
-    type: "select",
-    model: "contractType",
-    id: "contractType",
-    options: []
-  }
-];
 
 export default {
   mixins: [MyMixin],
   components: {
     MyButton,
     Multiselect,
-    FormField
+    FormField,
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       },
-      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
+      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
       isValid: false,
-      fields: FIELDS
+      fields: FIELDS,
     };
   },
   created() {
-    this.newEmployee.technologies.push("Javascript");
-    this.newEmployee.position = "Frontend developer";
-    this.setFieldOptions("position", this.getPositions);
-    this.setFieldOptions("contractType", this.contractTypeOptions);
+    this.newEmployee.technologies.push('Javascript');
+    this.newEmployee.position = 'Frontend developer';
+    this.setFieldOptions('position', this.getPositions);
+    this.setFieldOptions('contractType', this.contractTypeOptions);
   },
   mounted() {
-    console.log("Mounted hook from component: ", this.mixinProperty);
+    console.log('Mounted hook from component: ', this.mixinProperty);
   },
   watch: {
     newEmployee: {
@@ -122,8 +89,8 @@ export default {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   computed: {
     // formIsValid() {
@@ -136,25 +103,25 @@ export default {
   methods: {
     async checkForm() {
       if (this.isValid) {
-        await this.$store.dispatch("addNewEmployee", this.newEmployee);
-        this.$router.push({ name: "employees" });
+        await this.$store.dispatch('addNewEmployee', this.newEmployee);
+        this.$router.push({ name: 'employees' });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       };
     },
     setFieldOptions(fieldName, options) {
       const field = this.fields.find(item => item.id === fieldName);
       field.options = options;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
