@@ -7,7 +7,6 @@
       <my-button
         v-if="filtersApplied"
         class="btn-danger"
-        v-test
         @click="clearFilters"
       >Wyczyść filtry</my-button>
     </div>

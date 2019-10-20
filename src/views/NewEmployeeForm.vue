@@ -2,15 +2,16 @@
   <div class="container card">
     <span class="title">Formularz dodawania nowego pracownika</span>
     <form @submit.prevent="checkForm">
-      <label for="name">Imię</label>
-      <my-input id="name" v-model.trim="newEmployee.name"></my-input>
-      <label for="lastname">Nazwisko</label>
-      <my-input id="lastname" v-model.trim="newEmployee.lastname"></my-input>
-      <label for="position">Stanowisko</label>
-      <select id="position" v-model="newEmployee.position">
-        <option value>wybierz opcje</option>
-        <option v-for="option in getPositions" :key="option">{{option}}</option>
-      </select>
+      <template v-for="field in fields">
+        <label :key="'label' + field.id" :for="field.id">{{field.label}}</label>
+        <form-field
+          :key="'field' + field.id"
+          :field-type="field.type"
+          :id="field.id"
+          v-model="newEmployee[field.model]"
+          :options="field.options"
+        ></form-field>
+      </template>
       <label for="technologies">Technologie</label>
       <multiselect
         v-model="newEmployee.technologies"
@@ -21,13 +22,6 @@
         selected-label="wybrano"
         deselect-label="naciśnij enter aby usunąć"
       ></multiselect>
-      <label for="phoneNumber">Numer Telefonu</label>
-      <my-input id="phoneNumber" v-model.trim.number="newEmployee.phoneNumber"></my-input>
-      <label for="contractType">Forma zatrudnienia</label>
-      <select id="contractType" v-model="newEmployee.contractType">
-        <option value>wybierz opcje</option>
-        <option v-for="option in contractTypeOptions" :key="option">{{option}}</option>
-      </select>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
         <my-button
@@ -47,40 +41,79 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect';
-import MyButton from '@/components/MyButton.vue';
-import MyInput from '@/components/MyInput.vue';
+import Multiselect from "vue-multiselect";
+import MyButton from "@/components/MyButton.vue";
+// import MyInput from '@/components/MyInput.vue';
 // import MyButtonTest from '@/components/MyButtonTest';
-import MyMixin from '@/mixins/MyMixin';
+import MyMixin from "@/mixins/MyMixin";
+import FormField from "@/components/FormField";
+
+const FIELDS = [
+  {
+    label: "Imię",
+    type: "input",
+    model: "name",
+    id: "name"
+  },
+  {
+    label: "Nazwisko",
+    type: "input",
+    model: "lastname",
+    id: "lastname"
+  },
+  {
+    label: "Stanowisko",
+    type: "select",
+    model: "position",
+    id: "position",
+    options: []
+  },
+  {
+    label: "Numer Telefonu",
+    type: "input",
+    model: "phoneNumber",
+    id: "phoneNumber"
+  },
+  {
+    label: "Forma zatrudnienia",
+    type: "select",
+    model: "contractType",
+    id: "contractType",
+    options: []
+  }
+];
 
 export default {
   mixins: [MyMixin],
   components: {
     MyButton,
-    MyInput,
     Multiselect,
+    FormField
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       },
-      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
+      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
       isValid: false,
+      fields: FIELDS
     };
   },
   created() {
-    this.newEmployee.technologies.push('Javascript');
-    this.newEmployee.position = 'Frontend developer';
+    this.newEmployee.technologies.push("Javascript");
+    this.newEmployee.position = "Frontend developer";
+    this.setFieldOptions("position", this.getPositions);
+    this.setFieldOptions("contractType", this.contractTypeOptions);
   },
   mounted() {
-    console.log('Mounted hook from component: ', this.mixinProperty);
+    console.log("Mounted hook from component: ", this.mixinProperty);
   },
   watch: {
     newEmployee: {
@@ -89,8 +122,8 @@ export default {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
     // formIsValid() {
@@ -102,22 +135,26 @@ export default {
   },
   methods: {
     async checkForm() {
-      if (this.formIsValid) {
-        await this.$store.dispatch('addNewEmployee', this.newEmployee);
-        this.$router.push({ name: 'home' });
+      if (this.isValid) {
+        await this.$store.dispatch("addNewEmployee", this.newEmployee);
+        this.$router.push({ name: "employees" });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       };
     },
-  },
+    setFieldOptions(fieldName, options) {
+      const field = this.fields.find(item => item.id === fieldName);
+      field.options = options;
+    }
+  }
 };
 </script>
 <style scoped>

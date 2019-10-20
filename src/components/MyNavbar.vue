@@ -15,16 +15,16 @@ export default {
     return {
       menu: [
         {
-          link: "/",
-          label: "Strona główna",
-          icon: "home-24px"
+          link: '/',
+          label: 'Strona główna',
+          icon: 'home-24px',
         },
         {
-          link: "/new-employee",
-          label: "Dodaj pracownika",
-          icon: "person_add-24px"
-        }
-      ]
+          link: '/new-employee',
+          label: 'Dodaj pracownika',
+          icon: 'person_add-24px',
+        },
+      ],
     };
   },
   methods: {
@@ -33,8 +33,8 @@ export default {
     },
     logout() {
       this.$store.dispatch('logout');
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

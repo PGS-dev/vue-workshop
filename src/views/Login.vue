@@ -16,31 +16,32 @@
   </div>
 </template>
 <script>
-import MyButton from "@/components/MyButton.vue";
-import MyInput from "@/components/MyInput.vue";
+import MyButton from '@/components/MyButton.vue';
+import MyInput from '@/components/MyInput.vue';
+
 export default {
   components: { MyButton, MyInput },
   data() {
     return {
       user: {
-        name: "",
-        password: ""
-      }
+        name: '',
+        password: '',
+      },
     };
   },
   computed: {
     validCredentials() {
       return this.user.name && this.user.password;
-    }
+    },
   },
   methods: {
     loginUser() {
       if (this.validCredentials) {
-        this.$store.dispatch("login", this.user);
+        this.$store.dispatch('login', this.user);
         this.$router.push('/');
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -10,10 +10,11 @@
   </div>
 </template>
 <script>
-import MyNavbar from "@/components/MyNavbar.vue";
-import MyLoader from "@/components/MyLoader.vue";
+import MyNavbar from '@/components/MyNavbar.vue';
+import MyLoader from '@/components/MyLoader.vue';
+
 export default {
-  components: { MyNavbar, MyLoader }
+  components: { MyNavbar, MyLoader },
 };
 </script>
 <style lang="scss" scoped>

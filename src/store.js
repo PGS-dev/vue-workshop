@@ -42,7 +42,7 @@ export default new Vuex.Store({
     getEmployees: state => state.employees,
     getTechnologies: state => state.technologies,
     getPositions: state => state.positions,
-    getUser: state => state.user
+    getUser: state => state.user,
   },
   mutations: {
     addNewEmployee(state, employee) {
@@ -59,7 +59,7 @@ export default new Vuex.Store({
     },
     setUser(state, payload) {
       state.user = payload;
-    }
+    },
   },
   actions: {
     addNewEmployee({ commit }, employee) {
@@ -83,12 +83,12 @@ export default new Vuex.Store({
         }, 1500);
       });
     },
-    login({commit}, payload) {
+    login({ commit }, payload) {
       commit('setUser', payload);
     },
-    logout({commit}) {
+    logout({ commit }) {
       commit('setUser', null);
       router.push('/login');
-    }
+    },
   },
 });
