@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router/router';
 
 import '@/css/custom.css';
-import store from './store';
+import store from './store/store';
 
 import MyPlugin from '@/plugins/MyPlugin';
 

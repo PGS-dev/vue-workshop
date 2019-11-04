@@ -33,7 +33,7 @@
       >field is required</span>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
-        <my-button class="btn-action" type="submit">Zapisz</my-button>
+        <my-button id="action" class="btn-action" type="submit">Zapisz</my-button>
         <!-- <my-button-test
           :disabled="!formIsValid"
           :class="{disabled: !formIsValid}"
@@ -84,6 +84,7 @@ export default {
     this.setFieldOptions('contractType', this.contractTypeOptions);
   },
   mounted() {
+    console.log(this.$router);
     console.log('Mounted hook from component: ', this.mixinProperty);
   },
   watch: {
@@ -91,6 +92,8 @@ export default {
       handler(newVal, oldVal) {
         if (newVal.technologies.length) {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
+          console.log('watcher fired');
+          console.log(this.isValid);
         }
       },
       deep: true,
@@ -107,7 +110,10 @@ export default {
   methods: {
     async checkForm() {
       this.validate = true;
+      console.log(Object.values(this.newEmployee));
+      console.log(this.isValid);
       if (this.isValid) {
+        console.log('check form asdsadad');
         await this.$store.dispatch('addNewEmployee', this.newEmployee);
         this.$router.push({ name: 'employees' });
       }

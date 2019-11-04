@@ -1,0 +1,31 @@
+export default {
+  employees: [
+  ],
+  loading: false,
+  technologies: [
+    'Javascript',
+    'Java',
+    '.NET',
+    'Docker',
+    'AWS',
+    'Azure',
+    'MySQL',
+    'MongoDB',
+    'Node.js',
+    'GraphQL',
+    'Jenkins',
+    'HTML 5',
+    'CSS 3',
+  ],
+  positions: [
+    'Frontend developer',
+    'Backend developer',
+    'DevOps',
+    'Solution architect',
+    'QA engineer',
+    'Business analytics',
+    'UX designer',
+    'Project manager',
+  ],
+  user: null,
+};

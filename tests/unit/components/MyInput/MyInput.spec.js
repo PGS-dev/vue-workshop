@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { shallowMount, mount } from '@vue/test-utils';
 import MyInput from '@/components/MyInput.vue';
-import MyInputWrapper from './MyInputWrapper';
+import MyInputWrapper from './MyInputWrapper.vue';
 
 describe('MyInput', () => {
   it('simulating user input', () => {
@@ -19,12 +19,13 @@ describe('MyInput', () => {
   const MySecondInputWrapper = Vue.component('MySecondInputWrapper', {
     components: { MyInput },
     template: `<div>
-      <my-input class="input" type="number" v-model="model" disabled></my-input>
+      <my-input class="input" type="number" v-model="model" :disabled="disabled"></my-input>
       <p>{{model.length}}</p>
     </div>`,
     data() {
       return {
         model: '10',
+        disabled: true,
       };
     },
   });
@@ -35,7 +36,7 @@ describe('MyInput', () => {
     const attributes = input.attributes();
     expect(attributes.value).toEqual('10');
     expect(attributes.type).toEqual('number');
-    expect(attributes.disabled).toBe('');
+    expect(attributes.disabled).toBe('true');
     expect(input.classes()).toContain('input');
   });
 });
