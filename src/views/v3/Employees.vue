@@ -4,7 +4,11 @@
       <my-input v-focus v-model="searchValue" placeholder="wyszukaj"></my-input>
       <my-select v-model="selectedTechnology" :options="getTechnologies"></my-select>
       <my-select v-model="selectedPosition" :options="getPositions"></my-select>
-      <my-button v-if="filtersApplied" class="btn-danger" @click="clearFilters">Wyczyść filtry</my-button>
+      <my-button
+        v-if="filtersApplied"
+        class="btn-danger"
+        @click="clearFilters">Wyczyść filtry
+      </my-button>
     </div>
     <div class="container__table">
       <table>
@@ -27,17 +31,14 @@
 
 <script>
 import {
-  reactive,
-  computed,
-  ref,
   onMounted,
   onBeforeMount,
 } from '@vue/composition-api';
-import MyInput from '@/components/MyInput';
-import MySelect from '@/components/MySelect';
+import MyInput from '@/components/MyInput.vue';
+import MySelect from '@/components/MySelect.vue';
 import MyButton from '@/components/MyButton.vue';
 
-import useEmployeesFilters from './filters/useEmployeesFilters.js';
+import useEmployeesFilters from './filters/useEmployeesFilters';
 
 export default {
   components: { MyInput, MySelect, MyButton },

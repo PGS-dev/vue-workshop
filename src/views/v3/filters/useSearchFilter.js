@@ -5,7 +5,7 @@ export default () => {
 
   const searchFilterToLowerCase = computed(() => searchFilter.value.toLowerCase());
 
-  const clearSearchFilterValue = function () {
+  const clearSearchFilterValue = () => {
     searchFilter.value = '';
   };
   return {

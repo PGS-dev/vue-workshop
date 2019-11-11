@@ -1,6 +1,6 @@
 import { computed, reactive, toRefs } from '@vue/composition-api';
-import useVuexGetters from '../useVuexGetters.js';
-import useSearchFilter from './useSearchFilter.js';
+import useVuexGetters from '../useVuexGetters';
+import useSearchFilter from './useSearchFilter';
 
 export default (store) => {
   const selectFilters = reactive({
@@ -29,11 +29,15 @@ export default (store) => {
 
 
   const filterByTechnology = computed(() => (selectFilters.technology
-    ? filterBySearchValue.value.filter(employee => employee.technologies.includes(selectFilters.technology))
+    ? filterBySearchValue.value.filter(
+      employee => employee.technologies.includes(selectFilters.technology),
+    )
     : filterBySearchValue.value));
 
   const filterByPosition = computed(() => (selectFilters.position
-    ? filterByTechnology.value.filter(employee => employee.position.includes(selectFilters.position))
+    ? filterByTechnology.value.filter(
+      employee => employee.position.includes(selectFilters.position),
+    )
     : filterByTechnology.value));
 
   function clearFilters() {
