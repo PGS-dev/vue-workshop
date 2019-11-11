@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueCompositionApi from '@vue/composition-api';
 import App from './App.vue';
 import router from './router/router';
 
@@ -28,6 +29,7 @@ Vue.filter('formatNumber', (value) => {
 });
 // add custom plugin
 Vue.use(MyPlugin, { store });
+Vue.use(VueCompositionApi);
 
 // use global method
 console.log(Vue.myGlobalMethod());

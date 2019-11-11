@@ -84,7 +84,6 @@ export default {
     this.setFieldOptions('contractType', this.contractTypeOptions);
   },
   mounted() {
-    console.log(this.$router);
     console.log('Mounted hook from component: ', this.mixinProperty);
   },
   watch: {
@@ -110,10 +109,7 @@ export default {
   methods: {
     async checkForm() {
       this.validate = true;
-      console.log(Object.values(this.newEmployee));
-      console.log(this.isValid);
       if (this.isValid) {
-        console.log('check form asdsadad');
         await this.$store.dispatch('addNewEmployee', this.newEmployee);
         this.$router.push({ name: 'employees' });
       }
@@ -152,15 +148,15 @@ export default {
   margin: 2px 10px 15px 0;
   width: auto;
 }
-</style>
-<style>
-.multiselect .multiselect__tags {
-  border-color: #ccc;
-}
 
 input,
 select {
   margin: 0;
+}
+</style>
+<style>
+.multiselect .multiselect__tags {
+  border-color: #ccc;
 }
 
 .field-label {
