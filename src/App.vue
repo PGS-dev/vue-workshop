@@ -36,7 +36,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
-  // background-color: #eceff1;
   background-color: #FAFAFA;
 }
 </style>

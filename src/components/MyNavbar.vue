@@ -8,6 +8,10 @@
         tag="li"
         :exact="true"
       >
+        <img
+          v-if="item.icon"
+          :src="resolveImgSrc(item.icon)"
+        >
         <span>{{item.label}}</span>
       </router-link>
     </ul>
@@ -19,19 +23,26 @@ export default {
     return {
       menu: [
         {
-          link: "/",
-          label: "Strona główna"
+          link: '/',
+          label: 'Strona główna',
+          icon: 'home-24px',
         },
         {
-          link: "/new-employee",
-          label: "Dodaj pracownika"
-        }
-      ]
+          link: '/new-employee',
+          label: 'Dodaj pracownika',
+          icon: 'person_add-24px',
+        },
+      ],
     };
-  }
+  },
+  methods: {
+    resolveImgSrc(img) {
+      return require(`@/assets/${img}.svg`);
+    },
+  },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 nav {
   width: 100%;
   background-color: #fff;
@@ -39,35 +50,35 @@ nav {
   top: 0;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
   padding: 10px 0;
-}
 
-nav ul {
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-}
+  ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
 
-ul li {
-  padding: 5px 10px;
-  margin: 0 20px;
-  align-self: center;
-  border-bottom: 2px solid #ccc;
-  color: #757575;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-}
+    li {
+      padding: 5px 10px;
+      margin: 0 20px;
+      align-self: center;
+      border-bottom: 2px solid #ccc;
+      color: #757575;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
 
-li img {
-  margin-right: 8px;
-}
+      &:hover {
+        border-bottom: 2px solid#039BE5;
+        cursor: pointer;
+      }
 
-ul li:hover {
-  border-bottom: 2px solid#039BE5;
-  cursor: pointer;
+      img {
+        margin-right: 8px;
+      }
+    }
+  }
 }
 
 .router-link-active {
