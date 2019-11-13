@@ -1,10 +1,7 @@
 <template functional>
-  <button
-    :class="['btn', data.staticClass, data.class]"
-    v-on="listeners"
-    v-bind="data.attrs"
-  >
-    <slot /></button>
+  <button :class="['btn', data.staticClass, data.class]" v-on="listeners" v-bind="data.attrs">
+    <slot />
+  </button>
 </template>
 <script>
 export default {};
@@ -27,6 +24,15 @@ export default {};
   background-color: #4caf50;
   &:hover {
     background-color: #66bb6a;
+  }
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #f44336;
+
+  &:hover {
+    background-color: #e57373;
   }
 }
 </style>

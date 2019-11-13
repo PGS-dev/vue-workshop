@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 nav {
   width: 100%;
-  background-color: #fff;
+  background-color: #FAFAFA;
   position: fixed;
   top: 0;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
