@@ -1,32 +1,20 @@
 <template>
-  <div class="card">
+  <div class="container card">
     <span class="title">Formularz dodawania nowego pracownika</span>
     <form @submit.prevent="checkForm">
       <label for="name">Imię</label>
-      <my-input
-        id="name"
-        v-model.trim="newEmployee.name"
-      ></my-input>
+      <my-input id="name" v-model.trim="newEmployee.name"></my-input>
       <label for="lastname">Nazwisko</label>
-      <my-input
-        id="lastname"
-        v-model.trim="newEmployee.lastname"
-      ></my-input>
+      <my-input id="lastname" v-model.trim="newEmployee.lastname"></my-input>
       <label for="position">Stanowisko</label>
-      <select
-        id="position"
-        v-model="newEmployee.position"
-      >
-        <option value="">wybierz opcje</option>
-        <option
-          v-for="option in positionOptions"
-          :key="option"
-        >{{option}}</option>
+      <select id="position" v-model="newEmployee.position">
+        <option value>wybierz opcje</option>
+        <option v-for="option in getPositions" :key="option">{{option}}</option>
       </select>
       <label for="technologies">Technologie</label>
       <multiselect
         v-model="newEmployee.technologies"
-        v-bind:options="technologies"
+        v-bind:options="getTechnologies"
         v-bind:multiple="true"
         placeholder="wybierz opcje"
         select-label="naciśnij enter aby wybrać"
@@ -34,20 +22,11 @@
         deselect-label="naciśnij enter aby usunąć"
       ></multiselect>
       <label for="phoneNumber">Numer Telefonu</label>
-      <my-input
-        id="phoneNumber"
-        v-model.trim.number="newEmployee.phoneNumber"
-      ></my-input>
+      <my-input id="phoneNumber" v-model.trim.number="newEmployee.phoneNumber"></my-input>
       <label for="contractType">Forma zatrudnienia</label>
-      <select
-        id="contractType"
-        v-model="newEmployee.contractType"
-      >
-        <option value="">wybierz opcje</option>
-        <option
-          v-for="option in contractTypeOptions"
-          :key="option"
-        >{{option}}</option>
+      <select id="contractType" v-model="newEmployee.contractType">
+        <option value>wybierz opcje</option>
+        <option v-for="option in contractTypeOptions" :key="option">{{option}}</option>
       </select>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
@@ -57,12 +36,12 @@
           class="btn-action"
           type="submit"
         >Zapisz</my-button>
-        <my-button-test
+        <!-- <my-button-test
           :disabled="!formIsValid"
           :class="{disabled: !formIsValid}"
           class="btn btn-action"
           @click="test"
-        >Test Button</my-button-test>
+        >Test Button</my-button-test>-->
       </div>
     </form>
   </div>
@@ -71,14 +50,14 @@
 import Multiselect from 'vue-multiselect';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/MyInput.vue';
-import MyButtonTest from '@/components/MyButtonTest';
+// import MyButtonTest from '@/components/MyButtonTest';
 
 export default {
   components: {
     MyButton,
     MyInput,
     Multiselect,
-    MyButtonTest,
+    // MyButtonTest,
   },
   data() {
     return {
@@ -91,31 +70,6 @@ export default {
         technologies: [],
       },
       contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
-      positionOptions: [
-        'Frontend developer',
-        'Backend developer',
-        'DevOps',
-        'Solution architect',
-        'QA engineer',
-        'Business analytics',
-        'UX designer',
-        'Project manager',
-      ],
-      technologies: [
-        'Javascript',
-        'Java',
-        '.NET',
-        'Docker',
-        'AWS',
-        'Azure',
-        'MySQL',
-        'MongoDB',
-        'Node.js',
-        'GraphQL',
-        'Jenkins',
-        'HTML 5',
-        'CSS 3',
-      ],
     };
   },
   created() {
@@ -129,15 +83,18 @@ export default {
         && this.newEmployee.technologies.length
       );
     },
+    getTechnologies() {
+      return this.$store.getters.getTechnologies;
+    },
+    getPositions() {
+      return this.$store.getters.getPositions;
+    },
   },
   methods: {
-    test() {
-      console.log('test');
-    },
-    checkForm() {
+    async checkForm() {
       if (this.formIsValid) {
-        // TODO
-        console.log(this.newEmployee);
+        await this.$store.dispatch('addNewEmployee', this.newEmployee);
+        this.$router.push({ name: 'home' });
       }
     },
     clearForm() {
@@ -154,16 +111,8 @@ export default {
 };
 </script>
 <style scoped>
-.card {
+.container {
   width: 600px;
-  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
-  height: auto;
-  padding: 20px;
-  background-color: #fff;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
 }
 
 .flex-container {

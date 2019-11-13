@@ -1,18 +1,27 @@
 <template>
   <div id="app">
     <my-navbar></my-navbar>
-    <main id="main">
-      <router-view></router-view>
+    <main id="main" :class="{loading: getLoader}">
+      <my-loader v-if="getLoader"></my-loader>
+      <transition name="slide-fade">
+        <router-view></router-view>
+      </transition>
     </main>
   </div>
 </template>
 
 <script>
 import MyNavbar from '@/components/MyNavbar.vue';
+import MyLoader from '@/components/MyLoader.vue';
 
 export default {
   name: 'app',
-  components: { MyNavbar },
+  components: { MyNavbar, MyLoader },
+  computed: {
+    getLoader() {
+      return this.$store.getters.getLoader;
+    },
+  },
 };
 </script>
 
@@ -31,11 +40,29 @@ body {
   justify-content: center;
 }
 
+.loading {
+  opacity: 0.5;
+}
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.5s ease;
+}
+
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateY(25%);
+  opacity: 0;
+}
+
+.slide-fade-leave-active {
+  opacity: 0;
 }
 </style>
