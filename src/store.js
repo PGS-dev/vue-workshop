@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import CONSTANTS from '@/constants';
+import { EMPLOYEES } from '@/constants';
+import router from '@/router/router';
 
 Vue.use(Vuex);
 
@@ -34,12 +35,14 @@ export default new Vuex.Store({
       'UX designer',
       'Project manager',
     ],
+    user: null,
   },
   getters: {
     getLoader: state => state.loading,
     getEmployees: state => state.employees,
     getTechnologies: state => state.technologies,
     getPositions: state => state.positions,
+    getUser: state => state.user,
   },
   mutations: {
     addNewEmployee(state, employee) {
@@ -53,6 +56,9 @@ export default new Vuex.Store({
     },
     addEmployees(state, employees) {
       state.employees = employees;
+    },
+    setUser(state, payload) {
+      state.user = payload;
     },
   },
   actions: {
@@ -71,11 +77,18 @@ export default new Vuex.Store({
       return new Promise((resolve) => {
         commit('startLoader');
         setTimeout(() => {
-          commit('addEmployees', CONSTANTS.EMPLOYEES);
+          commit('addEmployees', EMPLOYEES);
           commit('stopLoader');
           resolve();
         }, 1500);
       });
+    },
+    login({ commit }, payload) {
+      commit('setUser', payload);
+    },
+    logout({ commit }) {
+      commit('setUser', null);
+      router.push('/login');
     },
   },
 });

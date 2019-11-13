@@ -1,17 +1,23 @@
 <template>
   <div class="container card">
     <span class="title">Formularz dodawania nowego pracownika</span>
-    <form @submit.prevent="checkForm">
-      <label for="name">Imię</label>
-      <my-input id="name" v-model.trim="newEmployee.name"></my-input>
-      <label for="lastname">Nazwisko</label>
-      <my-input id="lastname" v-model.trim="newEmployee.lastname"></my-input>
-      <label for="position">Stanowisko</label>
-      <select id="position" v-model="newEmployee.position">
-        <option value>wybierz opcje</option>
-        <option v-for="option in getPositions" :key="option">{{option}}</option>
-      </select>
-      <label for="technologies">Technologie</label>
+    <form @submit.prevent="checkForm" @keydown.enter.prevent="checkForm">
+      <template v-for="field in fields">
+        <label class="field-label" :key="'label' + field.id" :for="field.id">{{field.label}}</label>
+        <form-field
+          :key="'field' + field.id"
+          :field-type="field.type"
+          :id="field.id"
+          v-model="newEmployee[field.model]"
+          :options="field.options"
+        ></form-field>
+        <span
+          :style="{color: 'red', marginTop: '2px'}"
+          :key="'error' + field.id"
+          v-show="validate && !newEmployee[field.model]"
+        >field is required</span>
+      </template>
+      <label class="field-label" for="technologies">Technologie</label>
       <multiselect
         v-model="newEmployee.technologies"
         v-bind:options="getTechnologies"
@@ -21,21 +27,13 @@
         selected-label="wybrano"
         deselect-label="naciśnij enter aby usunąć"
       ></multiselect>
-      <label for="phoneNumber">Numer Telefonu</label>
-      <my-input id="phoneNumber" v-model.trim.number="newEmployee.phoneNumber"></my-input>
-      <label for="contractType">Forma zatrudnienia</label>
-      <select id="contractType" v-model="newEmployee.contractType">
-        <option value>wybierz opcje</option>
-        <option v-for="option in contractTypeOptions" :key="option">{{option}}</option>
-      </select>
+      <span
+        :style="{color: 'red', marginTop: '2px'}"
+        v-show="validate && !newEmployee.technologies.length"
+      >field is required</span>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
-        <my-button
-          :disabled="!isValid"
-          :class="{disabled: !isValid}"
-          class="btn-action"
-          type="submit"
-        >Zapisz</my-button>
+        <my-button class="btn-action" type="submit">Zapisz</my-button>
         <!-- <my-button-test
           :disabled="!formIsValid"
           :class="{disabled: !formIsValid}"
@@ -47,40 +45,46 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect';
-import MyButton from '@/components/MyButton.vue';
-import MyInput from '@/components/MyInput.vue';
+import Multiselect from "vue-multiselect";
+import MyButton from "@/components/MyButton.vue";
+// import MyInput from '@/components/MyInput.vue';
 // import MyButtonTest from '@/components/MyButtonTest';
-import MyMixin from '@/mixins/MyMixin';
+import MyMixin from "@/mixins/MyMixin";
+import FormField from "@/components/FormField";
+import { FIELDS } from "@/constants";
 
 export default {
   mixins: [MyMixin],
   components: {
     MyButton,
-    MyInput,
     Multiselect,
+    FormField
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       },
-      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
+      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
       isValid: false,
+      fields: FIELDS,
+      validate: false
     };
   },
   created() {
-    this.newEmployee.technologies.push('Javascript');
-    this.newEmployee.position = 'Frontend developer';
+    this.newEmployee.technologies.push("Javascript");
+    this.newEmployee.position = "Frontend developer";
+    this.setFieldOptions("position", this.getPositions);
+    this.setFieldOptions("contractType", this.contractTypeOptions);
   },
   mounted() {
-    console.log('Mounted hook from component: ', this.mixinProperty);
+    console.log("Mounted hook from component: ", this.mixinProperty);
   },
   watch: {
     newEmployee: {
@@ -89,8 +93,8 @@ export default {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   computed: {
     // formIsValid() {
@@ -102,22 +106,28 @@ export default {
   },
   methods: {
     async checkForm() {
-      if (this.formIsValid) {
-        await this.$store.dispatch('addNewEmployee', this.newEmployee);
-        this.$router.push({ name: 'home' });
+      this.validate = true;
+      if (this.isValid) {
+        await this.$store.dispatch("addNewEmployee", this.newEmployee);
+        this.$router.push({ name: "employees" });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: '',
-        lastname: '',
-        position: '',
-        contractType: '',
-        phoneNumber: '',
-        technologies: [],
+        name: "",
+        lastname: "",
+        position: "",
+        contractType: "",
+        phoneNumber: "",
+        technologies: []
       };
+      this.validate = false;
     },
-  },
+    setFieldOptions(fieldName, options) {
+      const field = this.fields.find(item => item.id === fieldName);
+      field.options = options;
+    }
+  }
 };
 </script>
 <style scoped>
@@ -140,6 +150,15 @@ export default {
 <style>
 .multiselect .multiselect__tags {
   border-color: #ccc;
+}
+
+input,
+select {
+  margin: 0;
+}
+
+.field-label {
+  margin-top: 15px;
 }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
