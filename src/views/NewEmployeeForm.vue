@@ -33,7 +33,7 @@
       >field is required</span>
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
-        <my-button class="btn-action" type="submit">Zapisz</my-button>
+        <my-button id="action" class="btn-action" type="submit">Zapisz</my-button>
         <!-- <my-button-test
           :disabled="!formIsValid"
           :class="{disabled: !formIsValid}"
@@ -45,56 +45,58 @@
   </div>
 </template>
 <script>
-import Multiselect from "vue-multiselect";
-import MyButton from "@/components/MyButton.vue";
+import Multiselect from 'vue-multiselect';
+import MyButton from '@/components/MyButton.vue';
 // import MyInput from '@/components/MyInput.vue';
 // import MyButtonTest from '@/components/MyButtonTest';
-import MyMixin from "@/mixins/MyMixin";
-import FormField from "@/components/FormField";
-import { FIELDS } from "@/constants";
+import MyMixin from '@/mixins/MyMixin';
+import FormField from '@/components/FormField';
+import { FIELDS } from '@/constants';
 
 export default {
   mixins: [MyMixin],
   components: {
     MyButton,
     Multiselect,
-    FormField
+    FormField,
     // MyButtonTest,
   },
   data() {
     return {
       newEmployee: {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       },
-      contractTypeOptions: ["Umowa o prace", "Kontrakt B2B", "Student :)"],
+      contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
       isValid: false,
       fields: FIELDS,
-      validate: false
+      validate: false,
     };
   },
   created() {
-    this.newEmployee.technologies.push("Javascript");
-    this.newEmployee.position = "Frontend developer";
-    this.setFieldOptions("position", this.getPositions);
-    this.setFieldOptions("contractType", this.contractTypeOptions);
+    this.newEmployee.technologies.push('Javascript');
+    this.newEmployee.position = 'Frontend developer';
+    this.setFieldOptions('position', this.getPositions);
+    this.setFieldOptions('contractType', this.contractTypeOptions);
   },
   mounted() {
-    console.log("Mounted hook from component: ", this.mixinProperty);
+    console.log('Mounted hook from component: ', this.mixinProperty);
   },
   watch: {
     newEmployee: {
       handler(newVal, oldVal) {
         if (newVal.technologies.length) {
           this.isValid = Object.keys(newVal).every(key => newVal[key]);
+          console.log('watcher fired');
+          console.log(this.isValid);
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   computed: {
     // formIsValid() {
@@ -108,26 +110,26 @@ export default {
     async checkForm() {
       this.validate = true;
       if (this.isValid) {
-        await this.$store.dispatch("addNewEmployee", this.newEmployee);
-        this.$router.push({ name: "employees" });
+        await this.$store.dispatch('addNewEmployee', this.newEmployee);
+        this.$router.push({ name: 'employees' });
       }
     },
     clearForm() {
       this.newEmployee = {
-        name: "",
-        lastname: "",
-        position: "",
-        contractType: "",
-        phoneNumber: "",
-        technologies: []
+        name: '',
+        lastname: '',
+        position: '',
+        contractType: '',
+        phoneNumber: '',
+        technologies: [],
       };
       this.validate = false;
     },
     setFieldOptions(fieldName, options) {
       const field = this.fields.find(item => item.id === fieldName);
       field.options = options;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -146,15 +148,15 @@ export default {
   margin: 2px 10px 15px 0;
   width: auto;
 }
-</style>
-<style>
-.multiselect .multiselect__tags {
-  border-color: #ccc;
-}
 
 input,
 select {
   margin: 0;
+}
+</style>
+<style>
+.multiselect .multiselect__tags {
+  border-color: #ccc;
 }
 
 .field-label {

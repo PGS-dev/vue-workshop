@@ -8,7 +8,7 @@
         <label for="password">Hasło</label>
         <my-input id="password" type="password" v-model.trim="user.password"></my-input>
         <div class="action-buttons">
-          <my-button class>Rejestracja</my-button>
+          <my-button @click="($event) => $event.preventDefault()">Rejestracja</my-button>
           <my-button class="btn-action" type="submit">Zaloguj</my-button>
         </div>
       </form>
