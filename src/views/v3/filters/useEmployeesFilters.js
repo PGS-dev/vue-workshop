@@ -2,7 +2,7 @@ import { computed, reactive, toRefs } from '@vue/composition-api';
 import useVuexGetters from '../useVuexGetters';
 import useSearchFilter from './useSearchFilter';
 
-export default (store) => {
+export default store => {
   const selectFilters = reactive({
     technology: null,
     position: null,
@@ -22,7 +22,7 @@ export default (store) => {
     () => searchValue.value || selectFilters.technology || selectFilters.position,
   );
 
-  const filterBySearchValue = computed(() => getEmployees.value.filter((employee) => {
+  const filterBySearchValue = computed(() => getEmployees.value.filter(employee => {
     const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
     return values.includes(searchValueToLowerCase.value);
   }));

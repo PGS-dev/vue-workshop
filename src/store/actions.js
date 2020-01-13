@@ -14,7 +14,7 @@ export default {
   },
   fetchEmployeesList({ commit, getters }) {
     if (getters.getEmployees.length) return;
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       commit('startLoader');
       setTimeout(() => {
         commit('addEmployees', EMPLOYEES);
