@@ -19,16 +19,16 @@ export default {
     return {
       menu: [
         {
-          link: "/",
-          label: "Strona główna"
+          link: '/',
+          label: 'Strona główna',
         },
         {
-          link: "/new-employee",
-          label: "Dodaj pracownika"
-        }
-      ]
+          link: '/new-employee',
+          label: 'Dodaj pracownika',
+        },
+      ],
     };
-  }
+  },
 };
 </script>
 <style scoped>
