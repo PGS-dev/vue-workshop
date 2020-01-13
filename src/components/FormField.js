@@ -9,6 +9,8 @@ export default {
         return h(MySelect, context.data);
       case 'input':
         return h(MyInput, context.data);
+      default:
+        return null;
     }
   },
   props: {

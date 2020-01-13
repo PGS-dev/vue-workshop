@@ -1,6 +1,5 @@
 export default {
-  employees: [
-  ],
+  employees: [],
   loading: false,
   technologies: [
     'Javascript',

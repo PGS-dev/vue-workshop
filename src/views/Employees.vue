@@ -4,11 +4,7 @@
       <my-input v-focus v-model="searchValue" placeholder="wyszukaj"></my-input>
       <my-select v-model="selectedTechnology" :options="getTechnologies"></my-select>
       <my-select v-model="selectedPosition" :options="getPositions"></my-select>
-      <my-button
-        v-if="filtersApplied"
-        class="btn-danger"
-        @click="clearFilters"
-      >Wyczyść filtry</my-button>
+      <my-button v-if="filtersApplied" class="btn-danger" @click="clearFilters">Wyczyść filtry</my-button>
     </div>
     <div class="container__table">
       <table>
@@ -73,19 +69,23 @@ export default {
       return this.searchValue.toLowerCase();
     },
     filterEmployeesBySearchValue() {
-      return this.getEmployees.filter((employee) => {
+      return this.getEmployees.filter(employee => {
         const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
         return values.includes(this.searchValueToLowerCase);
       });
     },
     filterEmployeesByTechnology() {
       return this.selectedTechnology
-        ? this.filterEmployeesBySearchValue.filter(employee => employee.technologies.includes(this.selectedTechnology))
+        ? this.filterEmployeesBySearchValue.filter(employee =>
+            employee.technologies.includes(this.selectedTechnology)
+          )
         : this.filterEmployeesBySearchValue;
     },
     filterEmployeesByPosition() {
       return this.selectedPosition
-        ? this.filterEmployeesByTechnology.filter(employee => employee.position.includes(this.selectedPosition))
+        ? this.filterEmployeesByTechnology.filter(employee =>
+            employee.position.includes(this.selectedPosition)
+          )
         : this.filterEmployeesByTechnology;
     },
     filtersApplied() {

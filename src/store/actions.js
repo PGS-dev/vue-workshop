@@ -1,9 +1,10 @@
 import { EMPLOYEES } from '@/constants';
+// eslint-disable-next-line import/no-cycle
 import router from '@/router/router';
 
 export default {
   addNewEmployee({ commit }, employee) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       commit('startLoader');
       setTimeout(() => {
         commit('addNewEmployee', employee);
@@ -14,7 +15,8 @@ export default {
   },
   fetchEmployeesList({ commit, getters }) {
     if (getters.getEmployees.length) return;
-    return new Promise((resolve) => {
+    // eslint-disable-next-line consistent-return
+    return new Promise(resolve => {
       commit('startLoader');
       setTimeout(() => {
         commit('addEmployees', EMPLOYEES);

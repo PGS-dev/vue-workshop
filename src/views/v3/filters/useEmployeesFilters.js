@@ -1,16 +1,15 @@
+/* eslint-disable */
 import { computed, reactive, toRefs } from '@vue/composition-api';
 import useVuexGetters from '../useVuexGetters';
 import useSearchFilter from './useSearchFilter';
 
-export default (store) => {
+export default store => {
   const selectFilters = reactive({
     technology: null,
     position: null,
   });
 
-  const { getTechnologies, getPositions, getEmployees } = useVuexGetters(
-    store,
-  );
+  const { getTechnologies, getPositions, getEmployees } = useVuexGetters(store);
 
   const {
     searchFilter: searchValue,
@@ -19,26 +18,31 @@ export default (store) => {
   } = useSearchFilter();
 
   const filtersApplied = computed(
-    () => searchValue.value || selectFilters.technology || selectFilters.position,
+    () => searchValue.value || selectFilters.technology || selectFilters.position
   );
 
-  const filterBySearchValue = computed(() => getEmployees.value.filter((employee) => {
-    const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
-    return values.includes(searchValueToLowerCase.value);
-  }));
+  const filterBySearchValue = computed(() =>
+    getEmployees.value.filter(employee => {
+      const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
+      return values.includes(searchValueToLowerCase.value);
+    })
+  );
 
+  const filterByTechnology = computed(() =>
+    selectFilters.technology
+      ? filterBySearchValue.value.filter(employee =>
+          employee.technologies.includes(selectFilters.technology)
+        )
+      : filterBySearchValue.value
+  );
 
-  const filterByTechnology = computed(() => (selectFilters.technology
-    ? filterBySearchValue.value.filter(
-      employee => employee.technologies.includes(selectFilters.technology),
-    )
-    : filterBySearchValue.value));
-
-  const filterByPosition = computed(() => (selectFilters.position
-    ? filterByTechnology.value.filter(
-      employee => employee.position.includes(selectFilters.position),
-    )
-    : filterByTechnology.value));
+  const filterByPosition = computed(() =>
+    selectFilters.position
+      ? filterByTechnology.value.filter(employee =>
+          employee.position.includes(selectFilters.position)
+        )
+      : filterByTechnology.value
+  );
 
   function clearFilters() {
     clearSearchFilterValue();
@@ -58,6 +62,5 @@ export default (store) => {
     clearFilters,
     selectedTechnology,
     selectedPosition,
-
   };
 };

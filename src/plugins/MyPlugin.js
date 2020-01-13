@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 export default {
   install(Vue, options) {
     const { store } = { ...options };

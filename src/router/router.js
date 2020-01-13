@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home.vue';
+// eslint-disable-next-line import/no-cycle
 import AuthGuard from './auth-guard';
 // import NewEmployeeForm from '@/views/NewEmployeeForm.vue';
 const NewEmployeeForm = () => import(/* webpackChunkName: "new-employee-form" */'@/views/NewEmployeeForm.vue');

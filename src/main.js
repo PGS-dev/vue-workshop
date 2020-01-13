@@ -13,11 +13,13 @@ Vue.config.productionTip = false;
 // register global directives
 Vue.directive('color-swatch', (el, binding) => {
   // bind and update
+  // eslint-disable-next-line no-param-reassign
   el.style.backgroundColor = binding.value;
 });
 
 // register global filters
-Vue.filter('formatNumber', (value) => {
+// eslint-disable-next-line arrow-parens
+Vue.filter('formatNumber', value => {
   if (typeof value === 'number') {
     const stringValue = value.toString();
     const firstPart = stringValue.substring(0, 3);
