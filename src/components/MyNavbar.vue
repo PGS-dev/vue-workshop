@@ -1,17 +1,8 @@
 <template>
   <nav>
     <ul>
-      <router-link
-        v-for="item in menu"
-        :key="item.label"
-        :to="item.link"
-        tag="li"
-        :exact="true"
-      >
-        <img
-          v-if="item.icon"
-          :src="resolveImgSrc(item.icon)"
-        >
+      <router-link v-for="item in menu" :key="item.label" :to="item.link" tag="li" :exact="true">
+        <img v-if="item.icon" :src="resolveImgSrc(item.icon)" />
         <span>{{item.label}}</span>
       </router-link>
     </ul>
@@ -45,7 +36,7 @@ export default {
 <style lang="scss" scoped>
 nav {
   width: 100%;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   position: fixed;
   top: 0;
   box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);

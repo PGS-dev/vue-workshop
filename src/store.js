@@ -68,7 +68,7 @@ export default new Vuex.Store({
     },
     fetchEmployeesList({ commit, getters }) {
       if (getters.getEmployees.length) return;
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         commit('startLoader');
         setTimeout(() => {
           commit('addEmployees', CONSTANTS.EMPLOYEES);

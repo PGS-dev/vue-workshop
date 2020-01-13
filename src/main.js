@@ -16,7 +16,7 @@ Vue.directive('color-swatch', (el, binding) => {
 });
 
 // register global filters
-Vue.filter('formatNumber', (value) => {
+Vue.filter('formatNumber', value => {
   if (typeof value === 'number') {
     const stringValue = value.toString();
     const firstPart = stringValue.substring(0, 3);
