@@ -1,14 +1,8 @@
 <template>
-    <select
-        :value="value"
-        @input="$emit('input', $event.target.value)"
-    >
+  <select :value="value" @input="$emit('input', $event.target.value)">
     <option :value="null">Wybierz opcje...</option>
-    <option
-        v-for="option in options"
-        :key="option"
-    >{{option}}</option>
-    </select>
+    <option v-for="option in options" :key="option">{{option}}</option>
+  </select>
 </template>
 <script>
 export default {
@@ -16,5 +10,4 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 </style>

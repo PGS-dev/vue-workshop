@@ -55,7 +55,7 @@ export default {
       return this.searchValue.toLowerCase();
     },
     filterEmployeesBySearchValue() {
-      return this.getEmployees.filter((employee) => {
+      return this.getEmployees.filter(employee => {
         const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
         return values.includes(this.searchValueToLowerCase);
       });

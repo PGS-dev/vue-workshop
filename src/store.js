@@ -6,8 +6,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    employees: [
-    ],
+    employees: [],
     loading: false,
     technologies: [
       'Javascript',
@@ -57,7 +56,7 @@ export default new Vuex.Store({
   },
   actions: {
     addNewEmployee({ commit }, employee) {
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         commit('startLoader');
         setTimeout(() => {
           commit('addNewEmployee', employee);
@@ -68,7 +67,7 @@ export default new Vuex.Store({
     },
     fetchEmployeesList({ commit, getters }) {
       if (getters.getEmployees.length) return;
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         commit('startLoader');
         setTimeout(() => {
           commit('addEmployees', CONSTANTS.EMPLOYEES);
