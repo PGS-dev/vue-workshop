@@ -1,17 +1,8 @@
 <template>
   <nav>
     <ul>
-      <router-link
-        v-for="item in menu"
-        :key="item.label"
-        :to="item.link"
-        tag="li"
-        :exact="true"
-      >
-        <img
-          v-if="item.icon"
-          :src="resolveImgSrc(item.icon)"
-        >
+      <router-link v-for="item in menu" :key="item.label" :to="item.link" tag="li" :exact="true">
+        <img v-if="item.icon" :src="resolveImgSrc(item.icon)" />
         <span>{{item.label}}</span>
       </router-link>
     </ul>
@@ -37,6 +28,7 @@ export default {
   },
   methods: {
     resolveImgSrc(img) {
+      // eslint-disable-next-line
       return require(`@/assets/${img}.svg`);
     },
   },

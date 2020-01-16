@@ -1,10 +1,7 @@
 <template functional>
-  <button
-    :class="['btn', data.staticClass, data.class]"
-    v-on="listeners"
-    v-bind="data.attrs"
-  >
-    <slot /></button>
+  <button :class="['btn', data.staticClass, data.class]" v-on="listeners" v-bind="data.attrs">
+    <slot />
+  </button>
 </template>
 <script>
 export default {};

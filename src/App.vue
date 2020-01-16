@@ -21,7 +21,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 #main {
@@ -36,6 +36,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   height: 100vh;
   overflow: hidden;
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 </style>
