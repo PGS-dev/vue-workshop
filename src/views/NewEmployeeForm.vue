@@ -79,8 +79,8 @@ export default {
   computed: {
     formIsValid() {
       return (
-        Object.keys(this.newEmployee).every(key => this.newEmployee[key]) &&
-        this.newEmployee.technologies.length
+        Object.keys(this.newEmployee).every(key => this.newEmployee[key])
+        && this.newEmployee.technologies.length
       );
     },
     getTechnologies() {

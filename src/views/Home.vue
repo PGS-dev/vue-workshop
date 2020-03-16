@@ -13,6 +13,7 @@
         <tr
           v-for="(employee, index) in filterEmployeesBySearchValue"
           :key="employee.name + employee.lastname + index"
+          @click="goToDetail(employee, index + 1)"
         >
           <td v-for="(val, index) in employee" :key="'uniqueKey-' + val + index">{{val}}</td>
         </tr>
@@ -21,8 +22,8 @@
   </div>
 </template>
 <script>
-import MyInput from '@/components/MyInput';
-import MySelect from '@/components/MySelect';
+import MyInput from '@/components/MyInput.vue';
+import MySelect from '@/components/MySelect.vue';
 
 export default {
   components: { MyInput, MySelect },
@@ -59,6 +60,12 @@ export default {
         const values = `${employee.name.toLowerCase()} ${employee.lastname.toLowerCase()} ${employee.contractType.toLowerCase()}`;
         return values.includes(this.searchValueToLowerCase);
       });
+    },
+  },
+  methods: {
+    goToDetail(employee, id) {
+      this.$router.push({ name: 'employeeDetail', params: { id } });
+      this.$store.commit('setEmployee', employee);
     },
   },
   async created() {

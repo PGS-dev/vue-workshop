@@ -33,6 +33,7 @@ export default new Vuex.Store({
       'UX designer',
       'Project manager',
     ],
+    employee: {},
   },
   getters: {
     getLoader: state => state.loading,
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     addEmployees(state, employees) {
       state.employees = employees;
+    },
+    setEmployee(state, payload) {
+      state.employee = payload;
     },
   },
   actions: {
