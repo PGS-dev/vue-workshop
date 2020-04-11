@@ -12,15 +12,10 @@
         <option v-for="option in getPositions" :key="option">{{option}}</option>
       </select>
       <label for="technologies">Technologie</label>
-      <multiselect
-        v-model="newEmployee.technologies"
-        v-bind:options="getTechnologies"
-        v-bind:multiple="true"
-        placeholder="wybierz opcje"
-        select-label="naciśnij enter aby wybrać"
-        selected-label="wybrano"
-        deselect-label="naciśnij enter aby usunąć"
-      ></multiselect>
+      <select id="contractType" v-model="newEmployee.technologies">
+        <option value>wybierz opcje</option>
+        <option v-for="option in getTechnologies" :key="option">{{option}}</option>
+      </select>
       <label for="phoneNumber">Numer Telefonu</label>
       <my-input id="phoneNumber" v-model.trim.number="newEmployee.phoneNumber"></my-input>
       <label for="contractType">Forma zatrudnienia</label>
@@ -31,26 +26,18 @@
       <div class="flex-container">
         <my-button v-on:click.prevent="clearForm">Wyczyść</my-button>
         <my-button
-          :disabled="!isValid"
-          :class="{disabled: !isValid}"
+          :disabled="!formIsValid"
+          :class="{disabled: !formIsValid}"
           class="btn-action"
           type="submit"
         >Zapisz</my-button>
-        <!-- <my-button-test
-          :disabled="!formIsValid"
-          :class="{disabled: !formIsValid}"
-          class="btn btn-action"
-          @click="test"
-        >Test Button</my-button-test>-->
       </div>
     </form>
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect';
 import MyButton from '@/components/MyButton.vue';
 import MyInput from '@/components/MyInput.vue';
-// import MyButtonTest from '@/components/MyButtonTest';
 import MyMixin from '@/mixins/MyMixin';
 
 export default {
@@ -58,8 +45,6 @@ export default {
   components: {
     MyButton,
     MyInput,
-    Multiselect,
-    // MyButtonTest,
   },
   data() {
     return {
@@ -72,33 +57,22 @@ export default {
         technologies: [],
       },
       contractTypeOptions: ['Umowa o prace', 'Kontrakt B2B', 'Student :)'],
-      isValid: false,
     };
   },
   created() {
-    this.newEmployee.technologies.push('Javascript');
+    this.newEmployee.technologies = 'Javascript';
     this.newEmployee.position = 'Frontend developer';
   },
   mounted() {
     console.log('Mounted hook from component: ', this.mixinProperty);
   },
-  watch: {
-    newEmployee: {
-      handler(newVal, oldVal) {
-        if (newVal.technologies.length) {
-          this.isValid = Object.keys(newVal).every(key => newVal[key]);
-        }
-      },
-      deep: true,
-    },
-  },
   computed: {
-    // formIsValid() {
-    //   return (
-    //     Object.keys(this.newEmployee).every(key => this.newEmployee[key]) &&
-    //     this.newEmployee.technologies.length
-    //   );
-    // },
+    formIsValid() {
+      return (
+        Object.keys(this.newEmployee).every(key => this.newEmployee[key]) &&
+        this.newEmployee.technologies.length
+      );
+    },
   },
   methods: {
     async checkForm() {
@@ -137,9 +111,3 @@ export default {
   width: auto;
 }
 </style>
-<style>
-.multiselect .multiselect__tags {
-  border-color: #ccc;
-}
-</style>
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

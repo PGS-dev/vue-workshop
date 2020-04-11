@@ -30,8 +30,8 @@
   </div>
 </template>
 <script>
-import MyInput from '@/components/MyInput';
-import MySelect from '@/components/MySelect';
+import MyInput from '@/components/MyInput.vue';
+import MySelect from '@/components/MySelect.vue';
 import MyButton from '@/components/MyButton.vue';
 import MyMixin from '@/mixins/MyMixin';
 
@@ -81,16 +81,12 @@ export default {
     },
     filterEmployeesByTechnology() {
       return this.selectedTechnology
-        ? this.filterEmployeesBySearchValue.filter(employee =>
-            employee.technologies.includes(this.selectedTechnology)
-          )
+        ? this.filterEmployeesBySearchValue.filter(employee => employee.technologies.includes(this.selectedTechnology))
         : this.filterEmployeesBySearchValue;
     },
     filterEmployeesByPosition() {
       return this.selectedPosition
-        ? this.filterEmployeesByTechnology.filter(employee =>
-            employee.position.includes(this.selectedPosition)
-          )
+        ? this.filterEmployeesByTechnology.filter(employee => employee.position.includes(this.selectedPosition))
         : this.filterEmployeesByTechnology;
     },
     filtersApplied() {
