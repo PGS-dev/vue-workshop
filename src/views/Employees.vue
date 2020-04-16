@@ -76,16 +76,12 @@ export default {
     },
     filterEmployeesByTechnology() {
       return this.selectedTechnology
-        ? this.filterEmployeesBySearchValue.filter(employee =>
-            employee.technologies.includes(this.selectedTechnology)
-          )
+        ? this.filterEmployeesBySearchValue.filter(employee => employee.technologies.includes(this.selectedTechnology))
         : this.filterEmployeesBySearchValue;
     },
     filterEmployeesByPosition() {
       return this.selectedPosition
-        ? this.filterEmployeesByTechnology.filter(employee =>
-            employee.position.includes(this.selectedPosition)
-          )
+        ? this.filterEmployeesByTechnology.filter(employee => employee.position.includes(this.selectedPosition))
         : this.filterEmployeesByTechnology;
     },
     filtersApplied() {
